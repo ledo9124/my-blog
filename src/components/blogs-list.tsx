@@ -4,6 +4,7 @@ import { Blog } from "@/types";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Card, Col, Row, Skeleton } from "antd";
+import Image from "next/image";
 import Link from "next/link";
 
 interface BlogsList {
@@ -35,20 +36,8 @@ export const BlogsList = ({ blogs, isLoading }: BlogsList) => {
                                 style={{ width: '100%' }
                                 }
                                 cover={
-                                    <Skeleton>
-                                        < img
-                                            alt="example"
-                                            src=""
-                                        />
-                                    </Skeleton>
+                                    <Skeleton.Image active />
                                 }
-                                actions={
-                                    [
-                                        <Button icon={<EditOutlined key="edit" />} type="text"
-                                        />,
-                                        <Button icon={<DeleteOutlined key="delete" />} type="text"
-                                        />,
-                                    ]}
                             >
                                 <Skeleton active>
                                     <Card.Meta
@@ -65,20 +54,8 @@ export const BlogsList = ({ blogs, isLoading }: BlogsList) => {
                                 style={{ width: '100%' }
                                 }
                                 cover={
-                                    <Skeleton>
-                                        < img
-                                            alt="example"
-                                            src=""
-                                        />
-                                    </Skeleton>
+                                    <Skeleton.Image active />
                                 }
-                                actions={
-                                    [
-                                        <Button icon={<EditOutlined key="edit" />} type="text"
-                                        />,
-                                        <Button icon={<DeleteOutlined key="delete" />} type="text"
-                                        />,
-                                    ]}
                             >
                                 <Skeleton active>
                                     <Card.Meta
@@ -95,35 +72,37 @@ export const BlogsList = ({ blogs, isLoading }: BlogsList) => {
             {
                 blogs.map(blog => (
                     <Col key={blog._id} span={24} sm={24} md={12} lg={8} xl={6}>
-                        <Link href={`/blog-detail/${blog._id}`}>
-                            <Card
-                                hoverable
-                                style={{ width: '100%' }
-                                }
-                                cover={
-                                    < img
+                        <Card
+                            hoverable
+                            className="w-full overflow-hidden"
+                            cover={
+                                <Link href={`/blog-detail/${blog._id}`}>
+                                    <Image
+                                        width={200}
+                                        height={200}
+                                        className="w-full h-[200px] object-cover object-top"
                                         alt="example"
-                                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                        src="/avatar.jpg"
                                     />
-                                }
-                                actions={
-                                    [
-                                        <Button icon={<EditOutlined key="edit" />} type="text"
-                                            onClick={() => openModalEdit(blog)}
-                                        />,
-                                        <Button icon={<DeleteOutlined key="delete" />} type="text"
-                                            onClick={() => mutation.mutate(blog._id)}
-                                            loading={mutation.variables === blog._id && mutation.isPending}
-                                        />,
-                                    ]}
-                            >
-                                <Card.Meta
-                                    avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                                    title={blog.title}
-                                    description={blog.content}
-                                />
-                            </Card >
-                        </Link>
+                                </Link>
+                            }
+                            actions={
+                                [
+                                    <Button key={blog._id} icon={<EditOutlined key="edit" />} type="text"
+                                        onClick={() => openModalEdit(blog)}
+                                    />,
+                                    <Button key={blog._id} icon={<DeleteOutlined key="delete" />} type="text"
+                                        onClick={() => mutation.mutate(blog._id)}
+                                        loading={mutation.variables === blog._id && mutation.isPending}
+                                    />,
+                                ]}
+                        >
+                            <Card.Meta
+                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
+                                title={blog.title}
+                                description={blog.content}
+                            />
+                        </Card >
                     </Col>
                 ))
             }

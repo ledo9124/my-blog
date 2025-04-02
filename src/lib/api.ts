@@ -1,41 +1,53 @@
-import { Blog } from "@/types";
+import { Blog, FillterType } from "@/types";
 
+// Hàm helper để tạo ra các request HTTP
+const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
+  const response = await fetch(url, options);
+  
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => 'Unknown error');
+    throw new Error(`Request failed: ${errorText}`);
+  }
+  
+  return response.json();
+};
+
+// Giữ nguyên chức năng gốc, chỉ cải thiện cách triển khai
 export const fetchBlogs = async (): Promise<Blog[]> => {
-  const res = await fetch('/api/blogs');
-  if (!res.ok) throw new Error('Failed to fetch blogs');
-  return res.json();
+  return request<Blog[]>('/api/blogs');
 };
 
 export const fetchBlog = async (id: string): Promise<Blog> => {
-  const res = await fetch(`/api/blogs/${id}`);
-  if (!res.ok) throw new Error('Failed to fetch blog');
-  return res.json();
+  return request<Blog>(`/api/blogs/${id}`);
 };
 
 export const createBlog = async (blog: Omit<Blog, '_id' | 'createdAt'>): Promise<Blog> => {
-  const res = await fetch('/api/blogs', {
+  return request<Blog>('/api/blogs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(blog),
   });
-  if (!res.ok) throw new Error('Failed to create blog');
-  return res.json();
 };
 
 export const updateBlog = async (id: string, blog: Partial<Blog>): Promise<Blog> => {
-  const res = await fetch(`/api/blogs/${id}`, {
+  return request<Blog>(`/api/blogs/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(blog),
   });
-  if (!res.ok) throw new Error('Failed to update blog');
-  return res.json();
 };
 
 export const deleteBlog = async (id: string): Promise<{ message: string }> => {
-  const res = await fetch(`/api/blogs/${id}`, {
+  return request<{ message: string }>(`/api/blogs/${id}`, {
     method: 'DELETE',
   });
-  if (!res.ok) throw new Error('Failed to delete blog');
-  return res.json();
+};
+
+// Thêm hàm mới cho tính năng lọc
+export const filterBlogs = async (filter: FillterType): Promise<Blog[]> => {
+  return request<Blog[]>('/api/blogs/filter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(filter),
+  });
 };

@@ -10,9 +10,6 @@ import Image from "next/image"
 import { useRouter } from "next/navigation";
 
 export const BlogDetail = ({ id }: { id: string }) => {
-    if (!id) {
-        return;
-    }
     const { data: blog, isLoading } = useQuery<Blog>({
         queryKey: ['blog', id],
         queryFn: () => fetchBlog(id)
@@ -47,7 +44,7 @@ export const BlogDetail = ({ id }: { id: string }) => {
                     </Flex>
                 )
             }
-            <Row className="mt-10">
+            <Row className="mt-10" gutter={20}>
                 {
                     isLoading && (
                         <>
@@ -64,7 +61,7 @@ export const BlogDetail = ({ id }: { id: string }) => {
                     blog && (
                         <>
                             <Col span={24} lg={12}>
-                                <Image src='/avatar.jpg' height={500} width={500} alt="" />
+                                <Image src='/avatar.jpg' height={1000} width={1000} alt="" className="w-full"/>
                             </Col>
                             <Col span={24} lg={12}>
                                 <div className="text-lg font-medium text-black">{blog?.title}</div>

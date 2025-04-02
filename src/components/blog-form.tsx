@@ -33,11 +33,11 @@ export const ModalBlogForm = ({ initialValues, isEdit = false, onClose }: Props)
 
     const handleSubmit = useCallback(() => {
         form.submit();
-    }, []);
+    }, [form]);
 
     const onFinish = useCallback((values: Blog) => {
         mutation.mutate(values);
-    }, []);
+    }, [mutation]);
 
     return (
         <Modal
