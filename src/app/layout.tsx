@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { ModalBlog } from "@/components/modal";
 import QueryProvider from "@/components/query-provider";
 import { Layout } from "antd";
 import type { Metadata } from "next";
@@ -25,6 +26,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -37,6 +39,7 @@ export default function RootLayout({
               {children}
             </div>
           </Layout>
+          <ModalBlog />
         </QueryProvider>
       </body>
     </html>

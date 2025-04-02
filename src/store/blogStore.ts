@@ -2,23 +2,22 @@ import { Blog } from "@/types";
 import { create } from "zustand";
 
 interface BlogState {
-    blogs: Blog[],
-    setBlogs: (blogs: Blog[]) => void,
-    addBlog: (blog: Blog) => void,
-    updateBlog: (id: string, updateBlog: Partial<Blog>) => void,
-    deleteBlog: (id: string) => void,
+    isOpenModal: boolean;
+    togglemodal: () => void;
+    // fillter: FillterType;
+    isEdit: boolean;
+    recordEdit: Blog | undefined;
+    openModalEdit: (blog: Blog) => void;
+    closeModal: () => void;
 }
 
 const useBlogStore = create<BlogState>((set) => ({
-    blogs: [],
-    setBlogs: (blogs) => set({ blogs }),
-    addBlog: (blog) => set((state) => ({ blogs: [...state.blogs, blog] })),
-    updateBlog: (id, updateBlog) => set((state) => ({
-        blogs: state.blogs.map(blog => blog._id === id ? { ...blog, ...updateBlog } : blog),
-    })),
-    deleteBlog: (id) => set((state) => ({
-        blogs: state.blogs.filter(blog => blog._id !== id),
-    }))
+    isOpenModal: false,
+    isEdit: false,
+    recordEdit: undefined,
+    togglemodal: () => set((state) => ({isOpenModal: !state.isOpenModal})),
+    openModalEdit: (blog) => set({isEdit: true, recordEdit: blog , isOpenModal: true}),
+    closeModal: () => set({isEdit: false, isOpenModal: false, recordEdit: undefined}),
 }));
 
 export default useBlogStore;
