@@ -12,11 +12,12 @@ const handleError = (error: unknown, status = 500) => {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
     await dbConnect();
-    const blog: BlogType | null = await BlogModel.findById(params.id);
+    const { id } = await params; // Await the params
+    const blog: BlogType | null = await BlogModel.findById(id);
     if (!blog) return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     return NextResponse.json(blog);
   } catch (error) {
@@ -26,12 +27,13 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
     await dbConnect();
     const data: Partial<BlogType> = await request.json();
-    const blog: BlogType | null = await BlogModel.findByIdAndUpdate(params.id, data, { new: true });
+    const { id } = await params; // Await the params
+    const blog: BlogType | null = await BlogModel.findByIdAndUpdate(id, data, { new: true });
     if (!blog) return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     return NextResponse.json(blog);
   } catch (error) {
@@ -41,11 +43,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
     await dbConnect();
-    const blog: BlogType | null = await BlogModel.findByIdAndDelete(params.id);
+    const { id } = await params; // Await the params
+    const blog: BlogType | null = await BlogModel.findByIdAndDelete(id);
     if (!blog) return NextResponse.json({ error: 'Blog not found' }, { status: 404 });
     return NextResponse.json({ message: 'Blog deleted' });
   } catch (error) {

@@ -12,8 +12,10 @@ import { useRouter } from "next/navigation";
 export const BlogDetail = ({ id }: { id: string }) => {
     const { data: blog, isLoading } = useQuery<Blog>({
         queryKey: ['blog', id],
-        queryFn: () => fetchBlog(id)
+        queryFn: () => fetchBlog(id),
+        enabled: !!id
     });
+
     const router = useRouter();
     const { openModalEdit } = useBlogStore();
     const queryClient = useQueryClient();
