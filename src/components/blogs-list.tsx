@@ -10,10 +10,10 @@ import Link from "next/link";
 interface BlogsList {
     blogs: Blog[];
     isLoading: boolean;
+    openModalEdit: (blog: Blog) => void;
 }
 
-export const BlogsList = ({ blogs, isLoading }: BlogsList) => {
-    const { openModalEdit } = useBlogStore();
+export const BlogsList = ({ blogs, isLoading, openModalEdit }: BlogsList) => {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: deleteBlog,

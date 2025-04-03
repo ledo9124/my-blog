@@ -9,7 +9,7 @@ import { Button } from "antd";
 
 const Blog = () => {
 
-  const { togglemodal } = useBlogStore();
+  const { togglemodal, openModalEdit } = useBlogStore();
 
   const { data: blogs = [], isLoading } = useQuery<BlogProp[]>({
     queryKey: ['blogs'],
@@ -22,7 +22,7 @@ const Blog = () => {
         <h1 className="text-2xl font-semibold uppercase">List Blog</h1>
         <Button icon={<PlusOutlined />} type="primary" onClick={togglemodal}>Add Blog</Button>
       </div>
-      <BlogsList blogs={blogs} isLoading={isLoading} />
+      <BlogsList blogs={blogs} isLoading={isLoading} openModalEdit={openModalEdit}/>
     </div>
   );
 };

@@ -12,7 +12,6 @@ const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
   return response.json();
 };
 
-// Giữ nguyên chức năng gốc, chỉ cải thiện cách triển khai
 export const fetchBlogs = async (): Promise<Blog[]> => {
   return request<Blog[]>('/api/blogs');
 };
