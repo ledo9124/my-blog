@@ -20,6 +20,5 @@ export interface BlogUpload {
 
 export interface FillterType {
   title?: string;
-  latest?: boolean;
-  old?: boolean;
+  sort?: string;
 }

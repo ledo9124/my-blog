@@ -1,4 +1,4 @@
-import { Blog } from "@/types";
+import { Blog, FillterType } from "@/types";
 
 // Helper function for HTTP requests
 const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -12,8 +12,23 @@ const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
   return response.json();
 };
 
-export const fetchBlogs = async (): Promise<Blog[]> => {
-  return request<Blog[]>('/api/blogs');
+export const fetchBlogs = async (filters?: FillterType): Promise<Blog[]> => {
+  // Build query parameters
+  const params = new URLSearchParams();
+  
+  if (filters) {
+    if (filters.title) {
+      params.append('title', filters.title);
+    }
+    if (filters.sort) {
+      params.append('sort', filters.sort);
+    }
+  }
+  
+  const queryString = params.toString();
+  const url = queryString ? `/api/blogs?${queryString}` : '/api/blogs';
+  
+  return request<Blog[]>(url);
 };
 
 export const fetchBlog = async (id: string): Promise<Blog> => {
@@ -40,13 +55,5 @@ export const updateBlog = async (id: string, formData: FormData): Promise<Blog> 
 export const deleteBlog = async (id: string): Promise<{ message: string }> => {
   return request<{ message: string }>(`/api/blogs/${id}`, {
     method: 'DELETE',
-  });
-};
-
-// Updated filter function to use FormData
-export const filterBlogs = async (filterData: FormData): Promise<Blog[]> => {
-  return request<Blog[]>('/api/blogs/filter', {
-    method: 'POST',
-    body: filterData,
   });
 };

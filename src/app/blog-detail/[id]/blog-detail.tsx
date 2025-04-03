@@ -64,7 +64,7 @@ export const BlogDetail = ({ id }: { id: string }) => {
                     blog && (
                         <>
                             <Col span={24} lg={12}>
-                                <Image src={`${blog.image ? getImageUrl(blog.image) : "/avatar.jpg"}`} height={1000} width={1000} alt="" className="w-full"/>
+                                <Image priority src={`${blog.image ? getImageUrl(blog.image) : "/avatar.jpg"}`} height={1000} width={1000} alt="" className="w-full"/>
                             </Col>
                             <Col span={24} lg={12}>
                                 <div className="text-lg font-medium text-black">{blog?.title}</div>
