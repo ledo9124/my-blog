@@ -14,7 +14,7 @@ const Blog = () => {
   const { data: blogs = [], isLoading } = useQuery<BlogProp[]>({
     queryKey: ['blogs'],
     queryFn: fetchBlogs
-  })
+  });
 
   return (
     <div className="text-black">

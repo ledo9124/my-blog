@@ -1,3 +1,4 @@
+import '@ant-design/v5-patch-for-react-19';
 import { Header } from "@/components/header";
 import { ModalBlog } from "@/components/modal";
 import QueryProvider from "@/components/query-provider";

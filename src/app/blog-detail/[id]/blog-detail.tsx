@@ -3,6 +3,7 @@
 import { deleteBlog, fetchBlog } from "@/lib/api"
 import useBlogStore from "@/store/blogStore"
 import { Blog } from "@/types"
+import { getImageUrl } from "@/utils/helper"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Button, Col, Flex, Row, Skeleton } from "antd"
@@ -63,7 +64,7 @@ export const BlogDetail = ({ id }: { id: string }) => {
                     blog && (
                         <>
                             <Col span={24} lg={12}>
-                                <Image src='/avatar.jpg' height={1000} width={1000} alt="" className="w-full"/>
+                                <Image src={`${blog.image ? getImageUrl(blog.image) : "/avatar.jpg"}`} height={1000} width={1000} alt="" className="w-full"/>
                             </Col>
                             <Col span={24} lg={12}>
                                 <div className="text-lg font-medium text-black">{blog?.title}</div>

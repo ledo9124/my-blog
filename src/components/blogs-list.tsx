@@ -1,6 +1,6 @@
 import { deleteBlog } from "@/lib/api";
-import useBlogStore from "@/store/blogStore";
 import { Blog } from "@/types";
+import { getImageUrl } from "@/utils/helper";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Card, Col, Row, Skeleton } from "antd";
@@ -82,7 +82,7 @@ export const BlogsList = ({ blogs, isLoading, openModalEdit }: BlogsList) => {
                                         height={200}
                                         className="w-full h-[200px] object-cover object-top"
                                         alt="example"
-                                        src="/avatar.jpg"
+                                        src={`${blog.image ? getImageUrl(blog.image) : "/avatar.jpg"}`}
                                     />
                                 </Link>
                             }

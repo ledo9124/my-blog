@@ -1,6 +1,6 @@
-import { Blog, FillterType } from "@/types";
+import { Blog } from "@/types";
 
-// Hàm helper để tạo ra các request HTTP
+// Helper function for HTTP requests
 const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const response = await fetch(url, options);
   
@@ -20,19 +20,20 @@ export const fetchBlog = async (id: string): Promise<Blog> => {
   return request<Blog>(`/api/blogs/${id}`);
 };
 
-export const createBlog = async (blog: Omit<Blog, '_id' | 'createdAt'>): Promise<Blog> => {
+export const createBlog = async (formData: FormData): Promise<Blog> => {
   return request<Blog>('/api/blogs', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(blog),
+    body: formData,
+    // Note: Do not set Content-Type header when sending FormData
+    // The browser will automatically set the correct boundary
   });
 };
 
-export const updateBlog = async (id: string, blog: Partial<Blog>): Promise<Blog> => {
+export const updateBlog = async (id: string, formData: FormData): Promise<Blog> => {
   return request<Blog>(`/api/blogs/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(blog),
+    body: formData,
+    // Content-Type header is automatically set when using FormData
   });
 };
 
@@ -42,11 +43,10 @@ export const deleteBlog = async (id: string): Promise<{ message: string }> => {
   });
 };
 
-// Thêm hàm mới cho tính năng lọc
-export const filterBlogs = async (filter: FillterType): Promise<Blog[]> => {
+// Updated filter function to use FormData
+export const filterBlogs = async (filterData: FormData): Promise<Blog[]> => {
   return request<Blog[]>('/api/blogs/filter', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(filter),
+    body: filterData,
   });
 };

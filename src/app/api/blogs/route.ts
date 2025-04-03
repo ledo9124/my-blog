@@ -1,9 +1,10 @@
+import BlogModel from '@/models/blog';
+import saveImage from '@/utils/saveImage';
 import { NextResponse } from 'next/server';
 import dbConnect from '../../../lib/db';
 import { Blog as BlogType } from '../../../types';
-import BlogModel from '@/models/blog';
 
-// Hàm helper xử lý lỗi
+// Helper function to handle errors
 const handleError = (error: unknown, status = 500) => {
   console.error('API Error:', error);
   const message = error instanceof Error ? error.message : 'Unknown error';
@@ -23,8 +24,32 @@ export async function GET(): Promise<NextResponse> {
 export async function POST(request: Request): Promise<NextResponse> {
   try {
     await dbConnect();
-    const data: Omit<BlogType, '_id' | 'createdAt'> = await request.json();
-    const blog: BlogType = await BlogModel.create(data);
+    
+    // Get form data instead of JSON
+    const formData = await request.formData();
+    
+    // Handle image upload first
+    const imagePath = await saveImage(formData);
+    console.log('imagePath: ', imagePath);
+    
+    // Extract other blog data
+    const title = formData.get('title') as string;
+    const content = formData.get('content') as string;
+    
+    if (!title || !content) {
+      return NextResponse.json(
+        { error: 'Title and content are required' }, 
+        { status: 400 }
+      );
+    }
+    
+    // Create blog with image path
+    const blog: BlogType = await BlogModel.create({
+      title,
+      content,
+      image: imagePath
+    });
+    
     return NextResponse.json(blog, { status: 201 });
   } catch (error) {
     return handleError(error, 400);
