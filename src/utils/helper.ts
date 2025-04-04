@@ -48,3 +48,28 @@ export function getTimeSincePosted(postTime: string): string {
         return `${diffDays} ngày trước`;
     }
 }
+
+export function isImageUrl(url: string): boolean {
+    // Danh sách các phần mở rộng ảnh phổ biến
+    const imageExtensions = [
+        '.jpg', 
+        '.jpeg', 
+        '.png', 
+        '.gif', 
+        '.bmp', 
+        '.webp',
+        '.tiff',
+        '.svg'
+    ];
+    
+    try {
+        // Chuyển URL thành chữ thường để kiểm tra không phân biệt hoa thường
+        const lowercaseUrl = url.toLowerCase();
+        
+        // Kiểm tra xem URL có kết thúc bằng một trong các phần mở rộng ảnh không
+        return imageExtensions.some(ext => lowercaseUrl.endsWith(ext));
+    } catch (error) {
+        console.error('Error checking image URL:', error);
+        return false;
+    }
+}
