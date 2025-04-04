@@ -3,7 +3,8 @@ import { Blog } from "@/types";
 import { getImageUrl, getTimeSincePosted } from "@/utils/helper";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Avatar, Button, Card, Col, Flex, Row, Skeleton } from "antd";
+import { Avatar, Button, Card, Col, Row, Skeleton } from "antd";
+import parse from 'html-react-parser';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -102,7 +103,7 @@ export const BlogsList = ({ blogs, isLoading, openModalEdit }: BlogsList) => {
                                 avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
                                 title={<div className="line-clamp-1">{blog.title}</div>}
                                 description={<>
-                                    <div className="line-clamp-2 h-[44px]">{blog.content}</div>
+                                    <div className="line-clamp-2 h-[44px]">{parse(blog.content)}</div>
                                     <div className="float-end text-xs text-slate-700">{getTimeSincePosted(blog.updatedAt)}</div>
                                 </>}
                             />

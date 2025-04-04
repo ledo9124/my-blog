@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/jsx-key */
 export const getImageUrl = (imageUrl: string) => {
     const url = process.env.NEXT_PUBLIC_URI_PATH || '';
     if (!url) return '';
@@ -6,14 +5,14 @@ export const getImageUrl = (imageUrl: string) => {
 }
 
 //Xử lý ảnh default
-export const handleProcessImage = (files: any) => {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const handleProcessImage = (files: string | undefined) => {
     if (!files) {
         return [];
     }
 
     const img = files.split(',');
 
-    return img.map((img: any, index: number) => {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return img.map((img: string, index: number) => {
         return {
             uid: index + 1,
             name: `Ảnh ${index + 1}`,

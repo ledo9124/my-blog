@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Button, Col, Flex, Row, Skeleton } from "antd"
 import Image from "next/image"
 import { useRouter } from "next/navigation";
+import parse from 'html-react-parser';
 
 export const BlogDetail = ({ id }: { id: string }) => {
     const { data: blog, isLoading } = useQuery<Blog>({
@@ -68,7 +69,7 @@ export const BlogDetail = ({ id }: { id: string }) => {
                             </Col>
                             <Col span={24} lg={12}>
                                 <div className="text-lg font-medium text-black">{blog?.title}</div>
-                                <div className="text-slate-400">{blog?.content}</div>
+                                <div className="text-slate-500">{parse(blog?.content)}</div>
                             </Col>
                         </>
                     )

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { BlogsList } from "@/components/blogs-list";
 import { fetchBlogs } from "@/lib/api";
@@ -12,7 +13,7 @@ const { Search } = Input;
 
 const Blog = () => {
   const [textSearch, setTextSearch] = useState<string>('');
-  const [optionFil, setOptionFil] = useState<string>('');
+  const [optionFil, setOptionFil] = useState<string | undefined>(undefined);
   const [subFill, setSubFill] = useState<boolean>(false);
   const isFirstRender = useRef(true);
   const { togglemodal, openModalEdit, fillter, setFillter } = useBlogStore();
@@ -68,7 +69,7 @@ const Blog = () => {
             style={{ width: 120 }}
             allowClear
             options={[{ value: 'old', label: 'Old' }, { value: 'latest', label: 'Latest' }]}
-            placeholder="select it"
+            placeholder="Sort"
             value={optionFil}
             onChange={(value) => setOptionFil(value)}
           />
