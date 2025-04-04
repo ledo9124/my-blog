@@ -13,7 +13,7 @@ interface BlogState {
 }
 
 const useBlogStore = create<BlogState>((set) => ({
-    isOpenModal: true,
+    isOpenModal: false,
     isEdit: false,
     recordEdit: undefined,
     togglemodal: () => set((state) => ({ isOpenModal: !state.isOpenModal })),

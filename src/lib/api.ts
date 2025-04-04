@@ -1,3 +1,4 @@
+import { User } from "@/models/user";
 import { Blog, FillterType } from "@/types";
 
 // Helper function for HTTP requests
@@ -29,6 +30,10 @@ export const fetchBlogs = async (filters?: FillterType): Promise<Blog[]> => {
   const url = queryString ? `/api/blogs?${queryString}` : '/api/blogs';
   
   return request<Blog[]>(url);
+};
+
+export const fetchUsers = async (): Promise<User[]> => {
+  return request<User[]>('/api/users');
 };
 
 export const fetchBlog = async (id: string): Promise<Blog> => {

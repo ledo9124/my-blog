@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { BlogsList } from "@/components/blogs-list";
-import { fetchBlogs } from "@/lib/api";
+import { fetchBlogs, fetchUsers } from "@/lib/api";
 import useBlogStore from "@/store/blogStore";
 import { Blog as BlogProp } from "@/types";
 import { PlusOutlined } from "@ant-design/icons";
@@ -22,6 +22,10 @@ const Blog = () => {
     queryKey: ['blogs', fillter],
     queryFn: () => fetchBlogs(fillter)
   });
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   /** Event KeyEnter */
   useEffect(() => {

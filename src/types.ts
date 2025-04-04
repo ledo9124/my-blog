@@ -2,6 +2,7 @@ import { UploadFile } from "antd";
 
 export interface Blog {
   _id: string;
+  user: StringConstructor;
   title: string;
   content: string;
   image: string | null;
